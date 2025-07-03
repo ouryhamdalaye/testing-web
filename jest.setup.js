@@ -1,38 +1,17 @@
 import '@testing-library/jest-dom'
+const { TextEncoder, TextDecoder } = require('node:util')
+const { ReadableStream } = require('node:stream/web')
+const { MessagePort } = require('node:worker_threads')
+global.TextEncoder = TextEncoder
+global.TextDecoder = TextDecoder
+global.ReadableStream = ReadableStream
+global.MessagePort = MessagePort
 
-// Mock Response and Request
-class MockResponse {
-  constructor(body, init) {
-    this.body = body
-    this.init = init || {}
-    this.status = init?.status || 200
-    this.headers = new Headers(init?.headers)
-  }
+const { Request, Response, Headers } = require('undici')
+global.Request = Request
+global.Response = Response
+global.Headers = Headers
 
-  async json() {
-    return JSON.parse(this.body)
-  }
-}
-
-global.Response = MockResponse
-global.Headers = class Headers {
-  constructor(init) {
-    this.headers = {}
-    if (init) {
-      Object.entries(init).forEach(([key, value]) => {
-        this.headers[key.toLowerCase()] = value
-      })
-    }
-  }
-
-  get(name) {
-    return this.headers[name.toLowerCase()]
-  }
-
-  set(name, value) {
-    this.headers[name.toLowerCase()] = value
-  }
-}
 
 // Mock crypto.randomUUID
 global.crypto = {
@@ -77,8 +56,8 @@ window.confirm = jest.fn(() => true)
 window.alert = jest.fn()
 
 // Mock environment variables
-process.env.UPSTASH_REDIS_REST_URL = 'https://test-redis-url'
-process.env.UPSTASH_REDIS_REST_TOKEN = 'test-token'
+process.env.UPSTASH_REDIS_REST_URL = 'https://special-dassie-48886.upstash.io'
+process.env.UPSTASH_REDIS_REST_TOKEN = 'Ab72AAIjcDEyMzVhMjVjOTdhZWU0ZGU0YmM3OWFjYjU4MjY1NjY0NXAxMA'
 
 // Mock the Upstash Redis client
 jest.mock('@upstash/redis', () => ({

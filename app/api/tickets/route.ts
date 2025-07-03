@@ -33,9 +33,7 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    console.log('GET /api/tickets - Starting request')
     const tickets = await getTickets()
-    console.log('GET /api/tickets - Got tickets:', tickets)
     return new NextResponse(JSON.stringify(tickets), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

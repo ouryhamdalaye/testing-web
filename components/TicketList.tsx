@@ -8,7 +8,6 @@ async function getTickets(): Promise<Ticket[]> {
     const baseUrl = headersList.get('x-forwarded-host')
     const protocol = headersList.get('x-forwarded-proto') || 'https'
     const url = `${protocol}://${baseUrl}/api/tickets`
-    console.log('Fetching tickets from:', url)
     
     const res = await fetch(url, { 
       cache: 'no-store',
@@ -23,7 +22,6 @@ async function getTickets(): Promise<Ticket[]> {
     }
 
     const data = await res.json()
-    console.log('Received tickets:', data)
     return data
   } catch (error) {
     console.error('Error in getTickets:', error)

@@ -58,8 +58,8 @@ export async function PATCH(
     
     // Handle status update
     if ('status' in body) {
-      const { status } = statusSchema.parse(body)
-      const ticket = await updateTicketStatus(params.id, status)
+      const validatedData = statusSchema.parse(body)
+      const ticket = await updateTicketStatus(params.id, validatedData.status)
       return new NextResponse(JSON.stringify(ticket), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
@@ -76,11 +76,13 @@ export async function PATCH(
       })
     }
 
+    console.error('Invalid request body:', body)
     return new NextResponse(JSON.stringify({ error: 'Invalid request body' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (error) {
+    console.error('Error in PATCH request:', error)
     if (error instanceof z.ZodError) {
       return new NextResponse(JSON.stringify({ error: error.errors }), {
         status: 400,

@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function CreateTicketForm() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const formRef = useRef<HTMLFormElement>(null)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -34,7 +35,7 @@ export default function CreateTicketForm() {
         throw new Error(error.message || 'Failed to create ticket')
       }
 
-      e.currentTarget.reset()
+      formRef.current?.reset()
       router.refresh()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create ticket')
@@ -44,7 +45,7 @@ export default function CreateTicketForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
           Title
