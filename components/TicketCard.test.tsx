@@ -1,10 +1,58 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+/**
+ * @fileoverview Unit tests for the TicketCard component
+ * @package components
+ * 
+ * @test-type Integration
+ * @test-coverage Component Rendering, User Interactions, API Integration
+ * @test-framework Jest + React Testing Library
+ * 
+ * @description
+ * Tests the TicketCard component which displays and manages individual tickets:
+ * - Ticket information display
+ * - Status updates
+ * - Ticket deletion
+ * - Response management (show/hide/add)
+ * - Error handling
+ * - Loading states
+ * 
+ * @testing-strategy
+ * Uses React Testing Library's user-event for realistic user interactions:
+ * - Simulates user clicks, typing, and form submissions
+ * - Tests async operations with API calls
+ * - Validates component state changes
+ * - Tests error scenarios and user feedback
+ * 
+ * @mocks
+ * - global.fetch: For API interactions
+ * - window.confirm: For deletion confirmation
+ * - window.alert: For error messages
+ * - console.error: Suppressed during error tests
+ * 
+ * @test-data
+ * Uses mockTicket fixture with:
+ * - Basic ticket properties (id, title, description)
+ * - Status management
+ * - Timestamp handling
+ * - Response array
+ * 
+ * @dependencies
+ * - @testing-library/react
+ * - @testing-library/user-event
+ * 
+ * @author Your Name
+ * @last-modified 2024-03-XX
+ */
+
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TicketCard from './TicketCard'
 
 // Mock fetch
 const mockFetch = jest.fn()
 global.fetch = mockFetch
+
+// Mock window.confirm with proper typing
+const confirmSpy = jest.spyOn(window, 'confirm')
 
 const mockTicket = {
   id: '1',
@@ -54,13 +102,13 @@ describe('TicketCard', () => {
   it('handles ticket deletion', async () => {
     const user = userEvent.setup()
     mockFetch.mockResolvedValueOnce({ ok: true })
-    window.confirm.mockReturnValueOnce(true)
+    confirmSpy.mockImplementation(() => true)
     
     render(<TicketCard ticket={mockTicket} />)
     
     await user.click(screen.getByRole('button', { name: /delete/i }))
 
-    expect(window.confirm).toHaveBeenCalled()
+    expect(confirmSpy).toHaveBeenCalled()
     expect(mockFetch).toHaveBeenCalledWith(`/api/tickets/${mockTicket.id}`, {
       method: 'DELETE',
     })

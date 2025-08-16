@@ -105,3 +105,8 @@ npm run test:watch
 ├── tailwind.config.js               # Tailwind CSS Configuration
 └── tsconfig.json                    # TypeScript Compiler Configuration
 ```
+
+## LICENCING
+
+This is a sandbox/demo project. No support provided.
+Licensed under the MIT License – see LICENSE for details.

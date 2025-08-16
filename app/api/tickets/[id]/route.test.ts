@@ -1,3 +1,36 @@
+/**
+ * @fileoverview API Route tests for individual ticket operations
+ * @package api/tickets/[id]
+ * 
+ * @test-type Integration
+ * @test-coverage GET, PUT, DELETE /api/tickets/[id]
+ * @test-framework Jest + Next.js API Testing
+ * 
+ * @description
+ * Tests endpoints for individual ticket operations:
+ * - GET: Retrieves a specific ticket
+ * - PUT: Updates a ticket's details
+ * - DELETE: Removes a ticket
+ * Includes validation of route parameters and error cases.
+ * 
+ * @testing-strategy
+ * Tests dynamic route handling with URL parameters.
+ * Mocks Redis operations for predictable testing.
+ * Validates proper error handling for non-existent tickets.
+ * Ensures proper status codes and response formats.
+ * 
+ * @mocks
+ * - Redis operations (getTicket, updateTicket, deleteTicket)
+ * - Next.js Response and Request objects
+ * 
+ * @dependencies
+ * - next/server: NextResponse
+ * - @/lib/redis: Redis operations
+ * 
+ * @author Your Name
+ * @last-modified 2024-03-XX
+ */
+
 import { NextResponse } from 'next/server'
 import { GET, DELETE, PATCH } from './route'
 import { getTicket, deleteTicket, updateTicketStatus, addResponse } from '@/lib/redis'

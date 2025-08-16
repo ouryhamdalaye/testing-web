@@ -1,4 +1,38 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+/**
+ * @fileoverview Unit tests for the CreateTicketForm component
+ * @package components
+ * 
+ * @test-type Integration
+ * @test-coverage Component, Form Submission, Error Handling, UI States
+ * @test-framework Jest + React Testing Library
+ * 
+ * @description
+ * This test suite validates the CreateTicketForm component functionality including:
+ * - Form rendering and field presence
+ * - Form submission and API interaction
+ * - Error handling and user feedback
+ * - Loading states and button behavior
+ * 
+ * @testing-strategy
+ * Uses React Testing Library's user-event for realistic user interactions.
+ * Mocks fetch API for controlled testing of network requests.
+ * Tests both success and error paths.
+ * Validates loading states and UI feedback.
+ * 
+ * @mocks
+ * - global.fetch: Mocked for API call testing
+ * - console.error: Suppressed during error tests
+ * - window.alert: Mocked for error message testing
+ * 
+ * @dependencies
+ * - @testing-library/react
+ * - @testing-library/user-event
+ * 
+ * @author Your Name
+ * @last-modified 2024-03-XX
+ */
+
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import CreateTicketForm from './CreateTicketForm'
 

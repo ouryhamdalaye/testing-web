@@ -1,3 +1,35 @@
+/**
+ * @fileoverview API Route tests for tickets collection endpoints
+ * @package api/tickets
+ * 
+ * @test-type Integration
+ * @test-coverage GET /api/tickets, POST /api/tickets
+ * @test-framework Jest + Next.js API Testing
+ * 
+ * @description
+ * Tests the main tickets collection endpoints:
+ * - GET: Retrieves list of all tickets
+ * - POST: Creates a new ticket
+ * Tests cover successful operations and error handling.
+ * 
+ * @testing-strategy
+ * Direct testing of Next.js API routes using Request/Response objects.
+ * Mocks Redis operations for controlled testing.
+ * Validates response status codes, headers, and body content.
+ * Tests both success and error scenarios.
+ * 
+ * @mocks
+ * - Redis operations (getTickets, createTicket)
+ * - Next.js Response objects
+ * 
+ * @dependencies
+ * - next/server: NextResponse
+ * - @/lib/redis: Redis operations
+ * 
+ * @author Your Name
+ * @last-modified 2024-03-XX
+ */
+
 import { NextResponse } from 'next/server'
 import { GET, POST } from './route'
 import { createTicket, getTickets } from '@/lib/redis'

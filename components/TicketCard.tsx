@@ -26,7 +26,6 @@ export default function TicketCard({ ticket }: { ticket: Ticket }) {
       if (!res.ok) throw new Error('Failed to update status')
       window.location.reload()
     } catch (error) {
-      console.error('Error updating status:', error)
       alert('Failed to update status')
     } finally {
       setIsSubmitting(false)
@@ -48,7 +47,6 @@ export default function TicketCard({ ticket }: { ticket: Ticket }) {
       setResponse('')
       window.location.reload()
     } catch (error) {
-      console.error('Error adding response:', error)
       alert('Failed to add response')
     } finally {
       setIsSubmitting(false)

@@ -39,7 +39,6 @@ export async function GET() {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (error) {
-    console.error('GET /api/tickets - Error:', error)
     return new NextResponse(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

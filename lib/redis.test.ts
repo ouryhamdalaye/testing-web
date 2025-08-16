@@ -1,12 +1,45 @@
+/**
+ * @fileoverview Unit tests for Redis database operations
+ * @package lib
+ * 
+ * @test-type Unit
+ * @test-coverage Database Operations, Error Handling
+ * @test-framework Jest
+ * 
+ * @description
+ * Tests Redis client operations and data handling:
+ * - CRUD operations for tickets
+ * - Connection handling
+ * - Error scenarios
+ * - Data validation
+ * 
+ * @testing-strategy
+ * Mocks Upstash Redis client for isolated testing.
+ * Tests data serialization/deserialization.
+ * Validates error handling for network issues.
+ * Ensures proper type handling and validation.
+ * 
+ * @mocks
+ * - @upstash/redis Redis client
+ * - All Redis operations (get, set, del, etc.)
+ * 
+ * @dependencies
+ * - @upstash/redis
+ * - zod (for validation)
+ * 
+ * @author Your Name
+ * @last-modified 2024-03-XX
+ */
+
 import '@testing-library/jest-dom'
 import { jest, describe, it, expect, beforeEach } from '@jest/globals'
-import { redis, createTicket, getTickets, getTicket, deleteTicket, addResponse, updateTicketStatus } from './redis'
+import { redis, createTicket, getTickets, deleteTicket, addResponse, updateTicketStatus } from './redis'
 
 // Mock the crypto.randomUUID function
 const mockUUID = '123e4567-e89b-12d3-a456-426614174000'
 global.crypto = {
   ...global.crypto,
-  randomUUID: jest.fn(() => mockUUID),
+  randomUUID: jest.fn(() => mockUUID) as unknown as () => `${string}-${string}-${string}-${string}-${string}`,
 }
 
 describe('Redis Ticket Functions', () => {
@@ -55,7 +88,9 @@ describe('Redis Ticket Functions', () => {
         responses: [],
       }]
 
+      // @ts-expect-error - Mock implementation
       ;(redis.zrange as jest.Mock).mockResolvedValue(['1'])
+      // @ts-expect-error - Mock implementation
       ;(redis.get as jest.Mock).mockResolvedValue(JSON.stringify(mockTickets[0]))
 
       const result = await getTickets()
@@ -87,6 +122,7 @@ describe('Redis Ticket Functions', () => {
         responses: [],
       }
 
+      // @ts-expect-error - Mock implementation
       ;(redis.get as jest.Mock).mockResolvedValue(JSON.stringify(mockTicket))
 
       const response = await addResponse('1', 'Test response')
@@ -104,6 +140,7 @@ describe('Redis Ticket Functions', () => {
     })
 
     it('should throw error if ticket not found', async () => {
+      // @ts-expect-error - Mock implementation
       ;(redis.get as jest.Mock).mockResolvedValue(null)
 
       await expect(addResponse('1', 'Test response')).rejects.toThrow('Ticket not found')
@@ -122,6 +159,7 @@ describe('Redis Ticket Functions', () => {
         responses: [],
       }
 
+      // @ts-expect-error - Mock implementation
       ;(redis.get as jest.Mock).mockResolvedValue(JSON.stringify(mockTicket))
 
       const result = await updateTicketStatus('1', 'closed')
@@ -134,6 +172,7 @@ describe('Redis Ticket Functions', () => {
     })
 
     it('should throw error if ticket not found', async () => {
+      // @ts-expect-error - Mock implementation
       ;(redis.get as jest.Mock).mockResolvedValue(null)
 
       await expect(updateTicketStatus('1', 'closed')).rejects.toThrow('Ticket not found')
